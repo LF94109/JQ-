@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>简单的插件写法</title>
+		<script src="jQuery.js"></script>
+	</head>
+	<body>
+		<div id="demo">测试内容
+			
+			<p>1</p>
+			<p>2</p>
+			<p>3</p>
+		</div>
+		
+	</body>
+</html>
+<script type="text/javascript">
+	/*
+	 * JQ插件：在JQ库当中，封装了很多关于DOM操作的函数，例如.css(),.html(),.append()
+	 * 这些方法都是JQ库内置的方法，我们可以通过插件的形式，扩展这些方法，满足我们的实际的开发和需求
+	 */
+	//1.常规模式下的写法
+	$.fn.myplugin = function(){
+		//this指的是谁？this指的是JQ对象
+		console.log(this)
+		return this.each(function(){
+			//this指的是谁？具体的DOM对象
+			console.log(this)
+			var $this = $(this);
+			
+			$this.css('color','red');
+		})
+	}
+	
+	//调用方法
+	
+	$('#demo').myplugin();
+	
+	$.fn.myremove = function(){
+		
+		return this.each(function(){
+			
+			var $this = $(this);
+			
+			$this.children('p').remove(); 
+		})
+	}
+	$('#demo').myremove();
+	
+	//2.传递参数的写法
+	$.fn.myplugin = function(option){
+		return this.each(function(){
+			var defaults = {
+				color:'red',
+				fontSize:'16px'
+			}
+			
+			var settings = $.extend({},defaults,option);
+			
+			var $this = $(this)
+			$this.css({
+				color: setting.color,
+				fontSie:setting.fontSize
+			})
+		})
+	}
+	//3.工具方法的创建
+	$.message = function(){
+		
+		console.log('我是工具方法，我要完成什么，在里边写代码就可以了')
+		
+		var arc = arguments;
+		
+		//执行后边的代码
+		
+	}
+	
+	$.isArray = function(option){
+		
+		//这种方法如果调用的情况下是这样的
+		//var acr = arguments[0];
+		//var arc = option;
+		var list = option;
+		
+		//判断一下这个list是不是数组，返回结果
+		
+		if(typeof list == 'object'){
+			
+			return list instanceof Array;
+		}else{
+			return false
+		}
+		
+		
+	}
+	
+	var list = [1,2,3,4,5];
+	
+	var result = $.isArray(list);
+	
+	console.log(result)
+	
+	$.changeNum = function(option){
+		
+		//将数组里边的第一个值和最后一个值进行互换
+		
+		var list = option;
+		
+		if(typeof list == 'object' && list instanceof Array){
+			
+			var begin = list[0]
+			var end = list[list.length]
+			var temp = null;
+			temp = begin
+			end = temp
+			begin = end
+			return list
+			
+		}else{
+			return 0
+		}
+	}
+	
+	var list = [1,2,3,4,5];
+	
+	var result = $.changeNum(list);
+	
+	console.log(result)
+	//[5,2,3,4,1]
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
